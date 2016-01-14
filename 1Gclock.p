@@ -12,7 +12,7 @@
 #define counter r24
 
 // not true 1Ghz clock, 
-// using 1Ghz definitions, 6.6% slower than actual
+// using 1Ghz definitions, 7.2% slower than actual
 //
 #define ns2   		0x00000001
 #define ns4   		0x00000003
@@ -70,9 +70,10 @@
 #define persec2		0x1FFFFFFF
 #define persec1		0x3FFFFFFF
 
-#define us1024		0x0001FFFF
-#define us2048		0x0003FFFF
-#define us4096		0x0007FFFF
+#define us1024		0x000FFFFF
+#define us2048		0x001FFFFF
+#define us4096		0x003FFFFF
+#define us8192		0x007FFFFF
 
 #define IEP_GLOBAL_CFG	0x0002E000
 #define IEP_CNT 	0x0002E00C
@@ -94,7 +95,10 @@ START:
 // turn on IEP timer .. section 9.3.1 PRU_ICSS reference guide
 	MOV r3, IEP_GLOBAL_CFG
 	LBBO counter, r3, 0, 4
-	OR counter, counter, 17 
+	MOV r4, 0xFFFFFF0F    // blank out increment variable
+	AND counter, counter, r4 
+	MOV r4, 0x00000051    // increment by 5, turn on IEP
+	OR counter, counter, r4 
 	SBBO counter, r3, 0, 4
 	
 	MOV r3, IEP_CNT
