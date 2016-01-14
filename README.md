@@ -10,3 +10,6 @@ invocation: S0=`date +%s` ; ./1Gclock ; S1=`date +%s` ; expr $S1 - $S0
 be sure that your pru has been enabled.
 
 
+update 1/14/2016 ... never mind .. corrected code has been merged
+
+
